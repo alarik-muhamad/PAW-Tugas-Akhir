@@ -45,10 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-pink-200 font-sans">
+<body class="bg-pink-200 font-sans" style="background-color: #ffc2cc;">
 
     <!-- Navbar -->
-    <div class="flex items-center justify-between bg-red-700 px-6 py-3 text-white shadow">
+    <div class="flex items-center justify-between bg-red-700 px-6 py-3 text-white shadow" style= "background-color: #b33c3c">
         <div class="flex items-center gap-2">
             <img src="Assets/logo.svg" alt="Logo" class="h-8">
             <span class="font-bold text-lg">TugasAkhir</span>
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-[960px] min-h-[500px] overflow-hidden">
             
             <!-- Panel Ajakan -->
-            <div class="w-full md:w-1/2 bg-red-600 text-white flex flex-col justify-center items-center p-8">
+            <div class="w-full md:w-1/2 bg-red-600 text-white flex flex-col justify-center items-center p-8" style= "background-color: #b33c3c">
                 <h3 class="text-xl font-bold mb-2 text-center">KAMU SUDAH PUNYA AKUN?</h3>
                 <p class="text-sm text-center mb-6">Ayo login dan nikmati pengalaman menonton yang lebih baik!</p>
                 <a href="login.php" class="bg-white text-red-600 px-6 py-2 rounded hover:bg-gray-100 font-semibold">MASUK</a>
@@ -69,13 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Panel Form Register -->
             <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
-                <h2 class="text-3xl font-bold text-red-900 mb-8">Register</h2>
+                <h2 class="text-3xl font-bold text-red-900 mb-8" style= "color: #602f32">Register</h2>
                 <form method="post" class="space-y-4">
                     <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-2 border rounded">
                     <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 border rounded">
                     <input type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border rounded">
                     <input type="password" name="confirm" placeholder="Confirm Password" required class="w-full px-4 py-2 border rounded">
-                    <button type="submit" class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800">DAFTAR</button>
+                    <button type="submit" class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800" style= "background-color: #b33c3c">DAFTAR</button>
                     <?php if ($message): ?>
                         <p class="text-red-600 text-sm"><?= htmlspecialchars($message) ?></p>
                     <?php endif; ?>

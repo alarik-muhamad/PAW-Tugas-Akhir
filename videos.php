@@ -12,7 +12,6 @@ if (isset($_SESSION['user_id'])) {
     if ($result && !empty($result['profile_pic'])) {
         $path = __DIR__ . '/uploads/' . $result['profile_pic'];
         if (file_exists($path)) {
-            // Add timestamp to avoid browser cache
             $userImage = 'uploads/' . $result['profile_pic'] . '?v=' . filemtime($path);
         }
     }
@@ -43,6 +42,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title>PAW Tugas Akhir</title>
@@ -67,7 +67,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         .side-panel .find-paper {
             display: inline-block;
-            background: #f9232c;
+            background: #bc3a41;
             color: white;
             padding: 6px 12px;
             border-radius: 8px;
@@ -88,6 +88,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             color: white;
             border-radius: 5px;
             cursor: pointer;
+            font-family: "ATC Arquette";
         }
 
         .user {
@@ -129,6 +130,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
     </style>
 </head>
+
 <body>
     <div class="overlay" id="overlay"></div>
 
@@ -163,7 +165,18 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             <?php
             list($url, $tagsStr) = explode('|', $line);
             $tags = array_map('trim', explode(',', $tagsStr));
-            if ($filter && !in_array($filter, $tags)) continue;
+            
+            $matchFound = false;
+            if ($filter) {
+                foreach ($tags as $tag) {
+                    if (strcasecmp($filter, $tag) === 0) {
+                        $matchFound = true;
+                        break;
+                    }
+                }
+                if (!$matchFound) continue;
+            }
+
             $data = getYouTubeData($url);
             $thumbUrl = "https://img.youtube.com/vi/{$data['videoId']}/hqdefault.jpg";
             ?>
@@ -215,4 +228,5 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
     </script>
 </body>
+
 </html>

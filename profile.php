@@ -10,19 +10,16 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 $message = '';
 
-// Buat folder uploads/ kalau belum ada
 $uploadDir = __DIR__ . '/uploads/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
 
-// Ambil data user sebelum update (untuk hapus file lama)
 $stmt = $pdo->prepare("SELECT username, profile_pic FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $user = $stmt->fetch();
 $existingProfilePic = $user['profile_pic'] ?? null;
 
-// Proses form update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $newUsername = trim($_POST['username']);
     $isUsernameChanged = $newUsername !== $user['username'];
@@ -47,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $uploadPath = $uploadDir . $newFileName;
                 move_uploaded_file($fileTmp, $uploadPath);
 
-                // Hapus file lama jika ada
                 if (!empty($existingProfilePic) && file_exists($uploadDir . $existingProfilePic)) {
                     unlink($uploadDir . $existingProfilePic);
                 }
@@ -55,14 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt = $pdo->prepare("UPDATE users SET username = ?, profile_pic = ? WHERE id = ?");
                 $stmt->execute([$newUsername, $newFileName, $userId]);
                 $_SESSION['username'] = $newUsername;
-                $message = "Profil berhasil diperbarui.";
+                $message = "Profile updated.";
                 $user['profile_pic'] = $newFileName;
             }
         } elseif ($isUsernameChanged) {
             $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
             $stmt->execute([$newUsername, $userId]);
             $_SESSION['username'] = $newUsername;
-            $message = "Profil berhasil diperbarui.";
+            $message = "Profile updated.";
         }
     }
 
@@ -86,6 +82,13 @@ if (!empty($user['profile_pic'])) {
     <title>Profil</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        @font-face {
+            font-family: "ATC Arquette";
+            src: url("Fonts/ATCArquette-Regular.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
         .profile-container {
             max-width: 600px;
             margin: 40px auto;
@@ -93,13 +96,19 @@ if (!empty($user['profile_pic'])) {
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            font-family:"ATC Arquette";
+            font-family: "ATC Arquette";
+        }
+
+        @media all and (min-width: 100px) {
+            .profile-container {
+                width: 60%;
+            }
         }
 
         .profile-container h2 {
             text-align: center;
             margin-bottom: 20px;
-            font-family:"ATC Arquette";
+            font-family: "ATC Arquette";
         }
 
         .profile-img-preview {
@@ -144,8 +153,8 @@ if (!empty($user['profile_pic'])) {
 </head>
 
 <body>
-    <div class="profile-container">
-        <h2>Edit Profil</h2>
+    <div class="profile-container" style="color: #b33c3c;">
+        <h2>Profile Editor</h2>
         <img src="<?= $profileImage ?>" class="profile-img-preview" alt="Foto Profil">
         <form method="post" enctype="multipart/form-data">
             <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
@@ -158,12 +167,12 @@ if (!empty($user['profile_pic'])) {
         <div class="flex justify-center gap-4 mt-6" style="font-family: 'ATC Arquette', sans-serif;">
             <a href="videos.php">
                 <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
-                    ← Kembali ke Video
+                    Back to Videos
                 </button>
             </a>
             <form action="logout.php" method="post">
                 <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
-                    Logout
+                    Log out
                 </button>
             </form>
         </div>
