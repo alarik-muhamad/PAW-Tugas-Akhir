@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "ATC Arquette";
+  src: url("Fonts/ATCArquette-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: "ATC Arquette", sans-serif;
+  background: #ffc2cc;
+  color: #602f32;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #b33c3c;
+  padding: 10px 18%;
+}
+
+.navbar img {
+  height: 32px;
+}
+
+.video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 20%;
+}
+
+.video-card {
+  display: flex;
+  background: #fff9f9;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.video-card:hover {
+  transform: scale(1.01);
+}
+
+.video-thumb {
+  flex: 0 0 280px;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-info {
+  padding: 16px;
+  flex-grow: 1;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+.video-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.video-desc {
+  color: #602f32;
+  margin-bottom: 10px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #d44;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.sidebar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15%;
+  }
+
+  .video-list {
+    padding: 20px 15%;
+  }
+
+  .video-card {
+    flex-direction: column;
+  }
+
+  .video-thumb {
+    width: 100%;
+    flex: none;
+  }
+
+  .video-info {
+    padding: 12px;
+  }
+}
+

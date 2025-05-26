@@ -1,0 +1,5 @@
+https://dl.acm.org/doi/abs/10.1145/159544.159617|Basic,Graphic Design
+https://dl.acm.org/doi/abs/10.5555/114768|Basic,Graphic Design
+https://dsp-book.narod.ru/DSPCSP/05.pdf|Basic,Graphic Design
+https://dl.acm.org/doi/abs/10.1145/1053291.1053309|Basic,Graphic Design
+https://miemagazine.com/sample/Science/SC301-400/SC830/sample-Computer%20Science%20An%20Overview%2013th%2013E%20Glenn%20Brookshear.pdf|Basic,Graphic Design
