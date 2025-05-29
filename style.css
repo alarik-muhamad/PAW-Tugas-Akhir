@@ -8,8 +8,8 @@
 body {
   margin: 0;
   font-family: "ATC Arquette", sans-serif;
-  background: #ffc2cc;
-  color: #BDDDE4;
+  background: #FFF1D5;
+  color: #222; /* Warna teks utama digelapkan dari #BDDDE4 ke abu tua */
 }
 
 .navbar {
@@ -69,10 +69,11 @@ body {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
+  color: #222; /* Pastikan judul juga cukup gelap */
 }
 
 .video-desc {
-  color: #602f32;
+  color: #444; /* Ganti dari #602f32 ke abu tua yang lebih netral dan kontras */
   margin-bottom: 10px;
 }
 
@@ -84,14 +85,19 @@ body {
 
 .tag {
   background-color: #9EC6F3;
-  color: white;
+  color: #003355; /* Ganti dari putih ke biru tua agar kontras dan tetap enak dibaca */
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 12px;
 }
 
+.tag:hover {
+  background-color: #7BB5E9; /* Efek hover untuk UX lebih baik */
+}
+
 .sidebar {
   display: none;
+  color: #222; /* Sidebar text warna gelap */
 }
 
 @media (max-width: 768px) {
@@ -116,4 +122,3 @@ body {
     padding: 12px;
   }
 }
-

@@ -48,7 +48,7 @@
   </section>
 
   <!-- Video Preview -->
-  <section id="video" class="py-16 px-4 bg-[#FBD0D9] text-center">
+  <section id="video" class="py-16 px-4 bg-[#FFF1D5] text-center">
     <h2 class="text-2xl font-bold text-red-700 mb-8">🎥 Preview Video</h2>
     <div class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto">
       <img src="https://img.youtube.com/vi/ePI6USOMHec/hqdefault.jpg" alt="Preview Video" class="rounded shadow-md mb-4 mx-auto">
@@ -57,7 +57,7 @@
   </section>
 
   <!-- Paper Preview -->
-  <section id="paper" class="py-16 px-4 bg-[#FBD0D9] text-center">
+  <section id="paper" class="py-16 px-4 bg-[#FFF1D5] text-center">
     <h2 class="text-2xl font-bold text-red-700 mb-8">📄 Preview Paper</h2>
     <div class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto">
       <p class="text-gray-700 mb-4">Some computer science issues in ubiquitous computing</p>
