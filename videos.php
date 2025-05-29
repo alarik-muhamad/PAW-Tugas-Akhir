@@ -48,14 +48,22 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     <title>PAW Tugas Akhir</title>
     <link rel="stylesheet" href="style.css" />
     <style>
+        body {
+            background: #FFF1D5;
+        }
+
+        .navbar {
+            background: #BDDDE4;
+        }
+
         .side-panel {
             position: fixed;
             top: 0;
             right: -350px;
             width: 280px;
             height: 100%;
-            background: #fffaf9;
-            border-left: 2px solid #bc3a41;
+            background: #F7F9FB;
+            border-left: 2px solid #BDDDE4;
             padding: 20px;
             transition: right 0.3s ease;
             z-index: 1001;
@@ -67,7 +75,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         .side-panel .find-paper {
             display: inline-block;
-            background: #bc3a41;
+            background: #3B6790;
             color: white;
             padding: 6px 12px;
             border-radius: 8px;
@@ -78,12 +86,14 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             padding: 6px;
             width: 100%;
             margin-top: 5px;
+            background: #fff;
+            border: 1px solid #BDDDE4;
         }
 
         .side-panel button {
             margin-top: 10px;
             padding: 6px 12px;
-            background: #bc3a41;
+            background: #3B6790;
             border: none;
             color: white;
             border-radius: 5px;

@@ -89,7 +89,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     <link rel="stylesheet" href="style.css" />
     <style>
         body {
-            background-color: #fcd2dc;
+            background-color: #FFF1D5;
             font-family: sans-serif;
         }
 
@@ -111,13 +111,13 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 8px;
-            color: #b33c3c;
+            color: #3B6790;
             text-decoration: none;
         }
 
         .paper-desc {
             font-size: 14px;
-            color: #602f32;
+            color: #000000;
             margin-bottom: 10px;
         }
 
@@ -128,7 +128,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
 
         .tag {
-            background-color: #d44;
+            background-color: #9EC6F3;
             color: white;
             padding: 2px 8px;
             border-radius: 6px;
@@ -139,7 +139,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #b33c3c;
+            background-color: #BDDDE4;
             padding: 10px 18%;
         }
 
@@ -160,7 +160,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             width: 280px;
             height: 100%;
             background: #fffaf9;
-            border-left: 2px solid #bc3a41;
+            border-left: 2px solid #9EC6F3;
             padding: 20px;
             transition: right 0.3s ease;
             z-index: 1001;
@@ -188,7 +188,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         .side-panel button {
             margin-top: 10px;
             padding: 6px 12px;
-            background: #bc3a41;
+            background: #9EC6F3;
             border: none;
             color: white;
             border-radius: 5px;

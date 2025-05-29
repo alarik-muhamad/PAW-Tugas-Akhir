@@ -9,14 +9,14 @@ body {
   margin: 0;
   font-family: "ATC Arquette", sans-serif;
   background: #ffc2cc;
-  color: #602f32;
+  color: #BDDDE4;
 }
 
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #b33c3c;
+  background-color: #BDDDE4;
   padding: 10px 18%;
 }
 
@@ -83,7 +83,7 @@ body {
 }
 
 .tag {
-  background-color: #d44;
+  background-color: #9EC6F3;
   color: white;
   padding: 2px 8px;
   border-radius: 6px;
