@@ -171,7 +171,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
 
         .side-panel .find-paper {
-            background: #bc3a41;
+            background: #3B6790;
             color: white;
             padding: 6px 12px;
             border-radius: 8px;
@@ -188,7 +188,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         .side-panel button {
             margin-top: 10px;
             padding: 6px 12px;
-            background: #9EC6F3;
+            background: #3B6790;
             border: none;
             color: white;
             border-radius: 5px;
