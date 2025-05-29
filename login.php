@@ -34,6 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <style>
+        @font-face {
+            font-family: "ATC Arquette";
+            src: url("Fonts/ATCArquette-Regular.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body, input, button, h2, h3, p, a {
             font-family: "ATC Arquette", sans-serif;
         }
@@ -71,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="w-full md:w-1/2 bg-blue-600 text-white flex flex-col justify-center items-center p-8" style="background-color: #BDDDE4;">
-                <h3 class="text-xl font-bold mb-2 text-center">KAMU GAK PUNYA AKUN?</h3>
-                <p class="text-sm text-center mb-6">Ayo Daftar dulu untuk mendapatkan pengalaman menonton lebih maksimal!</p>
-                <a href="register.php" class="bg-white text-blue-600 px-6 py-2 rounded hover:bg-white-100 font-semibold">DAFTAR</a>
+                <h3 class="text-xl font-bold mb-2 text-center" style="color: #003355;">KAMU GAK PUNYA AKUN?</h3>
+                <p class="text-sm text-center mb-6" style="color: #003355;">Ayo Daftar dulu untuk mendapatkan pengalaman menonton lebih maksimal!</p>
+                <a href="register.php" class="px-6 py-2 rounded font-semibold" style="background-color: #003355; color: white;">DAFTAR</a>
             </div>
         </div>
     </div>

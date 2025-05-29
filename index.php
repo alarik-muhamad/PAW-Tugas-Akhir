@@ -5,13 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PAW Tugas Akhir</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tambahkan link font jika pakai dari CDN atau font-face -->
   <style>
+    @font-face {
+      font-family: 'ATC Arquette';
+      src: url('Assets/fonts/ATC-Arquette.woff2') format('woff2'),
+           url('Assets/fonts/ATC-Arquette.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     html {
       scroll-behavior: smooth;
     }
+
     body {
       background-color: #FFF1D5;
+      font-family: 'ATC Arquette', sans-serif;
     }
+
     .navbar-custom {
       background-color: #BDDDE4;
     }
@@ -20,7 +33,7 @@
 <body class="text-gray-800">
 
   <!-- Navbar -->
-  <header class="navbar-custom text-white flex justify-between items-center px-6 py-3 fixed w-full z-10">
+  <header class="navbar-custom text-white flex justify-between items-center px-[10%] py-3 fixed w-full z-10">
     <div class="flex items-center gap-2 font-bold">
       <img src="Assets/tol2bang.svg" alt="Logo" class="h-8" />
       <span class="font-semibold">HELLO EDU</span>
@@ -41,9 +54,8 @@
       Platform ini dirancang untuk eksplorasi konten yang edukatif dan menarik.
     </p>
     <div class="flex gap-4">
-<a href="videos.php" class="bg-blue-400 text-white px-6 py-3 rounded hover:bg-blue-500">Lihat Video</a>
-<a href="papers.php" class="border border-blue-400 text-blue-600 px-6 py-3 rounded hover:bg-blue-300">Lihat Papers</a>
-
+      <a href="videos.php" class="bg-blue-400 text-white px-6 py-3 rounded hover:bg-blue-500">Lihat Video</a>
+      <a href="papers.php" class="border border-blue-400 text-blue-600 px-6 py-3 rounded hover:bg-blue-300">Lihat Papers</a>
     </div>
   </section>
 

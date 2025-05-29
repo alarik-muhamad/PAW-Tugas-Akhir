@@ -44,11 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'ATC Arquette';
+            src: url('Fonts/ATCArquette-Regular.otf') format('opentype');
+        }
+        * {
+            font-family: 'ATC Arquette', sans-serif;
+        }
+    </style>
 </head>
 <body class="bg-pink-200 font-sans" style="background-color: #FFF1D5;">
 
     <!-- Navbar -->
-    <div class="flex items-center justify-between bg-red-700 px-6 py-3 text-white shadow" style= "background-color: #BDDDE4">
+    <div class="flex items-center justify-between bg-red-700 px-6 py-3 text-white shadow" style="background-color: #BDDDE4">
         <div class="flex items-center gap-2">
             <img src="Assets/tol2bang.svg" alt="Logo" class="h-8">
             <span class="font-bold text-lg">HELLO EDU</span>
@@ -61,21 +70,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-[960px] min-h-[500px] overflow-hidden">
             
             <!-- Panel Ajakan -->
-            <div class="w-full md:w-1/2 bg-blue-400 text-white flex flex-col justify-center items-center p-8" style= "background-color: #BDDDE4">
-                <h3 class="text-xl font-bold mb-2 text-center">KAMU SUDAH PUNYA AKUN?</h3>
-                <p class="text-sm text-center mb-6">Ayo login dan nikmati pengalaman menonton yang lebih baik!</p>
-                <a href="login.php" class="bg-white text-blue-600 px-6 py-2 rounded hover:bg-gray-100 font-semibold">MASUK</a>
+            <div class="w-full md:w-1/2 bg-blue-400 text-white flex flex-col justify-center items-center p-8" style="background-color: #BDDDE4">
+                <h3 cclass="text-xl font-bold mb-2 text-center" style="color: #003355;">KAMU SUDAH PUNYA AKUN?</h3>
+                <p class="text-sm text-center mb-6" style="color: #003355;">Ayo login dan nikmati pengalaman menonton yang lebih baik!</p>
+                <a href="login.php" class="px-6 py-2 rounded font-semibold" style="background-color: #003355; color: white;">MASUK</a>
             </div>
 
             <!-- Panel Form Register -->
             <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
-                <h2 class="text-3xl font-bold text-red-900 mb-8" style= "color:rgb(68, 96, 153)">Register</h2>
+                <h2 class="text-3xl font-bold text-red-900 mb-8" style="color:rgb(68, 96, 153)">Register</h2>
                 <form method="post" class="space-y-4">
                     <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-2 border rounded">
                     <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 border rounded">
                     <input type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border rounded">
                     <input type="password" name="confirm" placeholder="Confirm Password" required class="w-full px-4 py-2 border rounded">
-                    <button type="submit" class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800" style= "background-color:rgb(68, 96, 153)">DAFTAR</button>
+                    <button type="submit" class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800" style="background-color:rgb(68, 96, 153)">DAFTAR</button>
                     <?php if ($message): ?>
                         <p class="text-red-600 text-sm"><?= htmlspecialchars($message) ?></p>
                     <?php endif; ?>

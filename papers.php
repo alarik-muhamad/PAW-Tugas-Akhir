@@ -16,7 +16,8 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
-function getPaperMeta($url) {
+function getPaperMeta($url)
+{
     if (!filter_var($url, FILTER_VALIDATE_URL)) {
         return ['title' => 'Invalid URL', 'description' => ''];
     }
@@ -77,20 +78,25 @@ function getPaperMeta($url) {
     return ['title' => $title, 'description' => $description];
 }
 
-
 $filter = $_GET['filter'] ?? '';
 $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title>Papers - PAW Tugas Akhir</title>
     <link rel="stylesheet" href="style.css" />
     <style>
+        @font-face {
+            font-family: 'ATC Arquette';
+            src: url("Fonts/ATCArquette-Regular.otf") format("opentype");
+        }
+
         body {
             background-color: #FFF1D5;
-            font-family: sans-serif;
+            font-family: 'ATC Arquette', sans-serif;
         }
 
         .paper-list {
@@ -234,83 +240,88 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
     </style>
 </head>
+
 <body>
 
-<div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay"></div>
 
-<header class="navbar">
-    <img src="Assets/tol2bang.svg" alt="Logo" />
-    <div class="menu">☰</div>
-</header>
+    <header class="navbar">
+        <img src="Assets/tol2bang.svg" alt="Logo" />
+        <div class="menu">☰</div>
+    </header>
 
-<div id="sidepanel" class="side-panel">
-    <div class="user text-center mb-6">
-        <a href="profile.php" style="text-decoration: none; color: inherit;">
-            <img src="<?= $userImage ?>" alt="User Profile"
-                 style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; cursor: pointer;" />
-            <p><?= htmlspecialchars($_SESSION['username'] ?? 'Guest') ?></p>
-        </a>
+    <div id="sidepanel" class="side-panel">
+        <div class="user text-center mb-6">
+            <a href="profile.php" style="text-decoration: none; color: inherit;">
+                <img src="<?= $userImage ?>" alt="User Profile"
+                    style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; cursor: pointer;" />
+                <p><?= htmlspecialchars($_SESSION['username'] ?? 'Guest') ?></p>
+            </a>
+        </div>
+
+        <p>CAN’T FIND WHAT YOU’RE LOOKING FOR?</p>
+        <a href="videos.php" class="find-paper">Find “Videos”</a>
+
+        <p style="margin-top: 20px;">Or try using filters</p>
+        <form method="get">
+            <input name="filter" placeholder="e.g. UI/UX" value="<?= htmlspecialchars($filter) ?>" />
+            <button type="submit">Apply</button>
+        </form>
     </div>
 
-    <p>CAN’T FIND WHAT YOU’RE LOOKING FOR?</p>
-    <a href="videos.php" class="find-paper">Find “Videos”</a>
+    <div class="paper-list">
+        <?php foreach ($papers as $line): ?>
+            <?php
+            $parts = explode('|', $line);
+            if (count($parts) < 2)
+                continue;
 
-    <p style="margin-top: 20px;">Or try using filters</p>
-    <form method="get">
-        <input name="filter" placeholder="e.g. UI/UX" value="<?= htmlspecialchars($filter) ?>" />
-        <button type="submit">Apply</button>
-    </form>
-</div>
+            $url = trim($parts[0]);
+            $tagsStr = $parts[1];
+            $tags = array_map('trim', explode(',', $tagsStr));
 
-<div class="paper-list">
-    <?php foreach ($papers as $line): ?>
-        <?php
-        $parts = explode('|', $line);
-        if (count($parts) < 2) continue;
+            if ($filter && !in_array($filter, $tags))
+                continue;
 
-        $url = trim($parts[0]);
-        $tagsStr = $parts[1];
-        $tags = array_map('trim', explode(',', $tagsStr));
-
-        if ($filter && !in_array($filter, $tags)) continue;
-
-        $meta = getPaperMeta($url);
-        ?>
-        <div class="paper-card">
-            <a href="<?= htmlspecialchars($url) ?>" target="_blank" class="paper-title"><?= htmlspecialchars($meta['title']) ?></a>
-            <div class="paper-desc"><?= htmlspecialchars($meta['description']) ?></div>
-            <div class="tags">
-                <?php foreach ($tags as $tag): ?>
-                    <span class="tag"><?= htmlspecialchars($tag) ?></span>
-                <?php endforeach; ?>
+            $meta = getPaperMeta($url);
+            ?>
+            <div class="paper-card">
+                <a href="<?= htmlspecialchars($url) ?>" target="_blank"
+                    class="paper-title"><?= htmlspecialchars($meta['title']) ?></a>
+                <div class="paper-desc"><?= htmlspecialchars($meta['description']) ?></div>
+                <div class="tags">
+                    <?php foreach ($tags as $tag): ?>
+                        <span class="tag"><?= htmlspecialchars($tag) ?></span>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-</div>
+        <?php endforeach; ?>
+    </div>
 
-<script>
-    const sidepanel = document.getElementById('sidepanel');
-    const overlay = document.getElementById('overlay');
-    const menuBtn = document.querySelector('.menu');
+    <script>
+        const sidepanel = document.getElementById('sidepanel');
+        const overlay = document.getElementById('overlay');
+        const menuBtn = document.querySelector('.menu');
 
-    menuBtn.addEventListener('click', () => {
-        const isShown = sidepanel.classList.toggle('show');
-        if (isShown) {
-            overlay.classList.add('show');
-        } else {
-            overlay.classList.remove('show');
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (sidepanel.classList.contains('show')) {
-            if (!sidepanel.contains(e.target) && !menuBtn.contains(e.target)) {
-                sidepanel.classList.remove('show');
+        menuBtn.addEventListener('click', () => {
+            const isShown = sidepanel.classList.toggle('show');
+            if (isShown) {
+                overlay.classList.add('show');
+            } else {
                 overlay.classList.remove('show');
             }
-        }
-    });
-</script>
+        });
+
+        document.addEventListener('click', (e) => {
+            if (sidepanel.classList.contains('show')) {
+                if (!sidepanel.contains(e.target) && !menuBtn.contains(e.target)) {
+                    sidepanel.classList.remove('show');
+                    overlay.classList.remove('show');
+                }
+            }
+        });
+    </script>
 
 </body>
+
 </html>

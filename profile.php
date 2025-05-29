@@ -119,6 +119,7 @@ if (!empty($user['profile_pic'])) {
             border-radius: 50%;
             object-fit: cover;
             background: #eee;
+            border: 2px solid #9EC6F3;
         }
 
         .profile-container input[type="text"],
@@ -132,8 +133,8 @@ if (!empty($user['profile_pic'])) {
         }
 
         .profile-container button {
-            background: #b33c3c;
-            color: white;
+            background: #9EC6F3;
+            color: #003355;
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
@@ -145,7 +146,7 @@ if (!empty($user['profile_pic'])) {
 
         .profile-container .message {
             text-align: center;
-            color: #b33c3c;
+            color: #9EC6F3;
             font-weight: bold;
             font-family: "ATC Arquette";
         }
@@ -153,7 +154,7 @@ if (!empty($user['profile_pic'])) {
 </head>
 
 <body>
-    <div class="profile-container" style="color: #b33c3c;">
+    <div class="profile-container" style="color: #003355;">
         <h2>Profile Editor</h2>
         <img src="<?= $profileImage ?>" class="profile-img-preview" alt="Foto Profil">
         <form method="post" enctype="multipart/form-data">
@@ -166,19 +167,16 @@ if (!empty($user['profile_pic'])) {
         <?php endif; ?>
         <div class="flex justify-center gap-4 mt-6" style="font-family: 'ATC Arquette', sans-serif;">
             <a href="videos.php">
-                <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+                <button class="bg-red-600 text-[#003355] py-2 px-4 rounded hover:bg-red-700">
                     Back to Videos
                 </button>
             </a>
             <form action="logout.php" method="post">
-                <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+                <button class="bg-red-600 text-[#003355] py-2 px-4 rounded hover:bg-red-700">
                     Log out
                 </button>
             </form>
         </div>
-
-
-
     </div>
 </body>
 
