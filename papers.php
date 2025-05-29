@@ -2,47 +2,97 @@
 session_start();
 include 'config.php';
 
-function getPaperMeta($url) {
-    $context = stream_context_create([
-        'http' => ['timeout' => 5]
-    ]);
+// Ambil gambar profil user
+$userImage = 'Assets/default.svg';
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT profile_pic FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $result = $stmt->fetch();
+    if ($result && !empty($result['profile_pic'])) {
+        $path = __DIR__ . '/uploads/' . $result['profile_pic'];
+        if (file_exists($path)) {
+            $userImage = 'uploads/' . $result['profile_pic'] . '?v=' . filemtime($path);
+        }
+    }
+}
 
-    $html = @file_get_contents($url, false, $context);
-    if (!$html) {
-        return ['title' => 'Unknown Title', 'description' => 'No description available.'];
+function getPaperMeta($url) {
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        return ['title' => 'Invalid URL', 'description' => ''];
     }
 
-    libxml_use_internal_errors(true);
-    $dom = new DOMDocument();
-    @$dom->loadHTML($html);
-    libxml_clear_errors();
+    $context = stream_context_create([
+        'http' => ['timeout' => 5, 'user_agent' => 'Mozilla/5.0']
+    ]);
 
-    $title = $dom->getElementsByTagName('title')->item(0)?->nodeValue ?? 'No title';
-    $metaTags = $dom->getElementsByTagName('meta');
+    // PDF handling
+    if (preg_match('/\.pdf($|\?)/i', $url)) {
+        return [
+            'title' => parse_url($url, PHP_URL_HOST),
+            'description' => 'This is a PDF file. Open to view its contents.'
+        ];
+    }
+
+    $html = @file_get_contents($url, false, $context);
+    $title = parse_url($url, PHP_URL_HOST);
     $description = 'No description available.';
 
-    foreach ($metaTags as $meta) {
-        if (strtolower($meta->getAttribute('name')) === 'description') {
-            $description = $meta->getAttribute('content');
-            break;
+    if ($html) {
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument();
+        @$dom->loadHTML($html);
+        libxml_clear_errors();
+
+        // Title
+        $titleNode = $dom->getElementsByTagName('title')->item(0);
+        if ($titleNode && trim($titleNode->nodeValue) !== '') {
+            $title = trim($titleNode->nodeValue);
+        }
+
+        // Description
+        foreach ($dom->getElementsByTagName('meta') as $meta) {
+            $name = strtolower($meta->getAttribute('name'));
+            $prop = strtolower($meta->getAttribute('property'));
+            $content = trim($meta->getAttribute('content'));
+
+            if (($name === 'description' || $prop === 'og:description' || $name === 'twitter:description') && $content !== '') {
+                $description = $content;
+                break;
+            }
+        }
+
+        // Fallback: Ambil <p>
+        if ($description === 'No description available.') {
+            $paragraphs = $dom->getElementsByTagName('p');
+            foreach ($paragraphs as $p) {
+                $text = trim($p->textContent);
+                if (strlen($text) > 30) {
+                    $description = $text;
+                    break;
+                }
+            }
         }
     }
 
     return ['title' => $title, 'description' => $description];
 }
 
+
 $filter = $_GET['filter'] ?? '';
 $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <title>Papers - PAW Tugas Akhir</title>
     <link rel="stylesheet" href="style.css" />
     <style>
+        body {
+            background-color: #fcd2dc;
+            font-family: sans-serif;
+        }
+
         .paper-list {
             display: flex;
             flex-direction: column;
@@ -62,6 +112,7 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             font-weight: bold;
             margin-bottom: 8px;
             color: #b33c3c;
+            text-decoration: none;
         }
 
         .paper-desc {
@@ -96,50 +147,170 @@ $papers = file('papers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             height: 32px;
         }
 
+        .menu {
+            font-size: 24px;
+            cursor: pointer;
+            color: #fffaf9;
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 280px;
+            height: 100%;
+            background: #fffaf9;
+            border-left: 2px solid #bc3a41;
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 1001;
+        }
+
+        .side-panel.show {
+            right: 0;
+        }
+
+        .side-panel .find-paper {
+            background: #bc3a41;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .side-panel input {
+            padding: 6px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .side-panel button {
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #bc3a41;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user p {
+            margin: 10px 0 0;
+            font-weight: bold;
+        }
+
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
         @media (max-width: 768px) {
             .paper-list {
-                padding: 20px 15%;
+                padding: 20px 10%;
             }
 
             .navbar {
-                padding: 10px 15%;
+                padding: 10px 10%;
             }
         }
     </style>
 </head>
-
 <body>
-    <header class="navbar">
-        <img src="Assets/logo.svg" alt="Logo" />
-        <form method="get" style="margin: 0;">
-            <input type="text" name="filter" placeholder="e.g. Graphic Design" value="<?= htmlspecialchars($filter) ?>"
-                style="padding: 6px 10px; border-radius: 6px; border: none; width: 180px; font-family: 'ATC Arquette', sans-serif;" />
-            <button type="submit"
-                style="padding: 6px 12px; background-color: #fffaf9; color: #b33c3c; border-radius: 6px; border: none; margin-left: 5px; font-weight: bold; cursor: pointer;">Filter</button>
-        </form>
-    </header>
 
-    <div class="paper-list">
-        <?php foreach ($papers as $line): ?>
-            <?php
-            list($url, $tagsStr) = explode('|', $line);
-            $tags = array_map('trim', explode(',', $tagsStr));
+<div class="overlay" id="overlay"></div>
 
-            if ($filter && !in_array($filter, $tags)) continue;
+<header class="navbar">
+    <img src="Assets/tol2bang.svg" alt="Logo" />
+    <div class="menu">☰</div>
+</header>
 
-            $meta = getPaperMeta($url);
-            ?>
-            <div class="paper-card">
-                <a href="<?= htmlspecialchars($url) ?>" target="_blank" class="paper-title"><?= htmlspecialchars($meta['title']) ?></a>
-                <div class="paper-desc"><?= htmlspecialchars($meta['description']) ?></div>
-                <div class="tags">
-                    <?php foreach ($tags as $tag): ?>
-                        <span class="tag"><?= htmlspecialchars($tag) ?></span>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
+<div id="sidepanel" class="side-panel">
+    <div class="user text-center mb-6">
+        <a href="profile.php" style="text-decoration: none; color: inherit;">
+            <img src="<?= $userImage ?>" alt="User Profile"
+                 style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; cursor: pointer;" />
+            <p><?= htmlspecialchars($_SESSION['username'] ?? 'Guest') ?></p>
+        </a>
     </div>
-</body>
 
+    <p>CAN’T FIND WHAT YOU’RE LOOKING FOR?</p>
+    <a href="videos.php" class="find-paper">Find “Videos”</a>
+
+    <p style="margin-top: 20px;">Or try using filters</p>
+    <form method="get">
+        <input name="filter" placeholder="e.g. UI/UX" value="<?= htmlspecialchars($filter) ?>" />
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<div class="paper-list">
+    <?php foreach ($papers as $line): ?>
+        <?php
+        $parts = explode('|', $line);
+        if (count($parts) < 2) continue;
+
+        $url = trim($parts[0]);
+        $tagsStr = $parts[1];
+        $tags = array_map('trim', explode(',', $tagsStr));
+
+        if ($filter && !in_array($filter, $tags)) continue;
+
+        $meta = getPaperMeta($url);
+        ?>
+        <div class="paper-card">
+            <a href="<?= htmlspecialchars($url) ?>" target="_blank" class="paper-title"><?= htmlspecialchars($meta['title']) ?></a>
+            <div class="paper-desc"><?= htmlspecialchars($meta['description']) ?></div>
+            <div class="tags">
+                <?php foreach ($tags as $tag): ?>
+                    <span class="tag"><?= htmlspecialchars($tag) ?></span>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<script>
+    const sidepanel = document.getElementById('sidepanel');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.querySelector('.menu');
+
+    menuBtn.addEventListener('click', () => {
+        const isShown = sidepanel.classList.toggle('show');
+        if (isShown) {
+            overlay.classList.add('show');
+        } else {
+            overlay.classList.remove('show');
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (sidepanel.classList.contains('show')) {
+            if (!sidepanel.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidepanel.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        }
+    });
+</script>
+
+</body>
 </html>

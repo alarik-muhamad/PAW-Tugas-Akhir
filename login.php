@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="flex items-center justify-between bg-red-700 px-6 py-3 text-white shadow" style="background-color: #b33c3c;">
         <div class="flex items-center gap-2">
-            <img src="Assets/logo.svg" alt="Logo" class="h-8" />
+            <img src="Assets/tol2bang.svg" alt="Logo" class="h-8" />
             <span class="font-bold text-lg">TugasAkhir</span>
         </div>
         <div class="text-2xl font-bold">&#9776;</div>

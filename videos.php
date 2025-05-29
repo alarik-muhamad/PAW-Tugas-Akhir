@@ -135,7 +135,7 @@ $videos = file('videos.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     <div class="overlay" id="overlay"></div>
 
     <header class="navbar">
-        <img src="Assets/logo.svg" alt="Logo" />
+        <img src="Assets/tol2bang.svg" alt="Logo" />
         <div class="menu">☰</div>
     </header>
 
